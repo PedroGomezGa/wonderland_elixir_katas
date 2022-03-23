@@ -1,18 +1,13 @@
 defmodule CardGameWar.Game do
 
   # feel free to use these cards or use your own data structure"
-  def suits, do: [:spade, :club, :diamond, :heart]
-  def ranks, do: [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
-  def cards do
-    for suit <- suits,
-        rank <- ranks do
-      {suit, rank}
-    end
-  end
+  @suits = [:spade, :club, :diamond, :heart]
+  @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
+  @cards for suit <- @suits, rank <- @ranks, do: {suit, rank}
 
-  def compare_card(a,b) do
+  def compare_card(a,b) when a in @cards and b in @cards do
     cond do
-      a === b -> :error
+      a === b -> {:error, "The 2 cards are the same! Come on!"}
       a["rank"] === b["rank"] -> %{"rank" => a["rank"], "suit" => compare_suit(a["suit"], b["suit"])}
       true -> %{"rank" => compare_rank(a["rank"], b["rank"]), "suit" => compare_suit(a["suit"], b["suit"])} 
     end
